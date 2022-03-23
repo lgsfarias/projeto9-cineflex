@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Recursive:wght@300;400;500;700&family=Righteous&family=Roboto:wght@100;300;400;700&display=swap');
+
+body {
+    font-family: 'Roboto';
+}
+
+header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 67px;
+    background: #C3CFD9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header p{
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 34px;
+    color: #E8833A;
+}
+
+footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    height: 117px;
+    left: 0px;
+    bottom: 0px;
+    right: 0;
+    background: #DFE6ED;
+    border: 1px solid #9EADBA;
+}
+footer .selectedMovie{
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 64px;
+    height: 89px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer .selectedMovie img{
+    width: 48px;
+    height: 72px;
+}
+
+footer .description p{
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 30px;
+    color: #293845;
+}
+
