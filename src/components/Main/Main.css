@@ -33,3 +33,21 @@ main .posters {
     flex-wrap: wrap;
     /* overflow-y: scroll; */
 }
+
+main .loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+main .loading p {
+    margin-top: 10px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 20px;
+    color: #293845;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

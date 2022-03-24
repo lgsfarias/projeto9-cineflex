@@ -8,7 +8,8 @@
     padding-bottom: 150px;
 
 }
-.Movie .header {
+.header {
+    z-index: 1;
     position: sticky;
     left: 0;
     top: -1px;
@@ -46,7 +47,7 @@
 .day .showtimes{
     display: flex;
 }
-.day .showtimes button{
+.day .showtimes .button{
     width: 83px;
     height: 43px;
     font-family: 'Roboto';
@@ -57,5 +58,23 @@
     border-radius: 3px;
     border: none;
     margin-right: 10px;
+    text-decoration: none;
 }
 
+.Movie .loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+.Movie .loading p {
+    margin-top: 10px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 20px;
+    color: #293845;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
