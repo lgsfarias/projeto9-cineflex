@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-import Main from './components/Main/Main';
-import Movie from './components/Movie/Movie';
-import Session from './components/Session/Session';
+import Main from './components/Main';
+import Movie from './components/Movie';
+import Session from './components/Session';
 import Success from './components/Success/Success';
 
 import Logo from './assets/img/logo.png';
 
 const App = () => {
-    const [order, setOrder] = useState({ ids: [], name: '', cpf: '' });
+    const [order, setOrder] = useState({
+        ids: [],
+        name: '',
+        cpf: '',
+        title: '',
+        date: '',
+        time: '',
+    });
     return (
         <Router>
             <header>
@@ -21,7 +28,7 @@ const App = () => {
                 </Link>
             </header>
             <Routes>
-                <Route path="/" element={<Main />}></Route>
+                <Route path="/" element={<Main setOrder={setOrder} />}></Route>
                 <Route path="/filme/:MovieId" element={<Movie />}></Route>
                 <Route
                     path="/sessao/:ShowtimeId"

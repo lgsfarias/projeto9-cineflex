@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { Link } from 'react-router-dom';
-import Loading from '../../assets/img/Spin-1s-200px.svg';
-import Api from '../../services/Api';
+import LoadingScreen from '../components/LoadingScreen';
+import Api from '../services/Api';
 
-import './Movie.css';
+// import './Movie.css';
 
 const Movie = () => {
     const [showtimes, setShowtimes] = useState({});
@@ -20,14 +21,14 @@ const Movie = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-        <div className="Movie">
+        <MovieContainer>
             <div className="header">
                 <h1>Selecione o horário</h1>
             </div>
             {showtimes.days ? (
                 <div className="days">
                     {showtimes.days.map((day) => (
-                        <div className="day" key={day.id}>
+                        <Day key={day.id}>
                             <h1>
                                 {day.weekday} - {day.date}
                             </h1>
@@ -42,7 +43,7 @@ const Movie = () => {
                                     </Link>
                                 ))}
                             </div>
-                        </div>
+                        </Day>
                     ))}
 
                     <footer>
@@ -58,13 +59,68 @@ const Movie = () => {
                     </footer>
                 </div>
             ) : (
-                <div className="loading">
-                    <img src={Loading} alt="loading gif" />
-                    <p>Carregando lista de sessões ...</p>
-                </div>
+                <LoadingScreen mensagem={'Carregando lista de sessões ...'} />
             )}
-        </div>
+        </MovieContainer>
     );
 };
 
 export default Movie;
+
+const MovieContainer = styled.div`
+    position: fixed;
+    top: 67px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    padding-bottom: 150px;
+
+    .header {
+        height: 100px;
+        background: #fff;
+        font-family: 'Roboto';
+        font-weight: 400;
+        font-size: 24px;
+        color: #293845;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+`;
+
+const Day = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    margin-bottom: 25px;
+
+    h1 {
+        font-family: 'Roboto';
+        font-weight: 400;
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #293845;
+    }
+
+    .showtimes {
+        display: flex;
+
+        .button {
+            width: 83px;
+            height: 43px;
+            font-family: 'Roboto';
+            font-weight: 400;
+            font-size: 18px;
+            color: #ffffff;
+            background: #e8833a;
+            border-radius: 3px;
+            border: none;
+            margin-right: 10px;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+`;

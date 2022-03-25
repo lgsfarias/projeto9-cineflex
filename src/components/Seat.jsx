@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Seat.css';
 
 const Seat = ({ isAvailable, name, order, setOrder, id }) => {
     const [isSelected, setIsSelected] = useState(false);
