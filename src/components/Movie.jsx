@@ -8,16 +8,20 @@ import Api from '../services/Api';
 
 // import './Movie.css';
 
-const Movie = () => {
+const Movie = (props) => {
+    const { setScreen } = props;
     const [showtimes, setShowtimes] = useState({});
     const { MovieId } = useParams();
 
     useEffect(() => {
+        setScreen('movies');
+
         Api.get(`movies/${MovieId}/showtimes`)
             .then((res) => {
                 setShowtimes(res.data);
             })
             .catch(console.log);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (

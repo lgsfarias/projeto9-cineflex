@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Link,
+    useNavigate,
+} from 'react-router-dom';
 
 import Main from './components/Main';
 import Movie from './components/Movie';
 import Session from './components/Session';
-import Success from './components/Success/Success';
+import Success from './components/Success';
 
 import Logo from './assets/img/logo.png';
+// import Back from './assets/img/play-skip-back.svg';
+import { AiFillStepBackward } from 'react-icons/ai';
 
 const App = () => {
     const [order, setOrder] = useState({
@@ -17,26 +25,34 @@ const App = () => {
         date: '',
         time: '',
     });
+
+    const [screen, setScreen] = useState('');
+
     return (
         <Router>
-            <header>
-                <Link to="/" style={{ textDecoration: 'none' }}>
-                    <div className="logo">
-                        <img src={Logo} alt="logo" />
-                        <p>CINEFLEX</p>
-                    </div>
-                </Link>
-            </header>
+            <Header screen={screen} />
             <Routes>
-                <Route path="/" element={<Main setOrder={setOrder} />}></Route>
-                <Route path="/filme/:MovieId" element={<Movie />}></Route>
+                <Route
+                    path="/"
+                    element={<Main setScreen={setScreen} setOrder={setOrder} />}
+                ></Route>
+                <Route
+                    path="/filme/:MovieId"
+                    element={<Movie setScreen={setScreen} />}
+                ></Route>
                 <Route
                     path="/sessao/:ShowtimeId"
-                    element={<Session order={order} setOrder={setOrder} />}
+                    element={
+                        <Session
+                            setScreen={setScreen}
+                            order={order}
+                            setOrder={setOrder}
+                        />
+                    }
                 ></Route>
                 <Route
                     path="/sucesso"
-                    element={<Success order={order} />}
+                    element={<Success setScreen={setScreen} order={order} />}
                 ></Route>
             </Routes>
         </Router>
@@ -44,3 +60,24 @@ const App = () => {
 };
 
 export default App;
+
+const Header = (props) => {
+    const { screen } = props;
+    const navigate = useNavigate();
+    return (
+        <header>
+            {screen !== 'main' && (
+                <AiFillStepBackward
+                    className="icon"
+                    onClick={() => navigate(-1)}
+                />
+            )}
+            <Link to="/" style={{ textDecoration: 'none' }}>
+                <div className="logo">
+                    <img src={Logo} alt="logo" />
+                    <p>CINEFLEX</p>
+                </div>
+            </Link>
+        </header>
+    );
+};

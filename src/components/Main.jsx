@@ -6,7 +6,7 @@ import MoviePoster from './MoviePoster';
 import LoadingScreen from './LoadingScreen';
 
 const Main = (props) => {
-    const { setOrder } = props;
+    const { setOrder, setScreen } = props;
     const [movies, setMovies] = useState();
 
     useEffect(() => {
@@ -18,10 +18,12 @@ const Main = (props) => {
             date: '',
             time: '',
         });
+        setScreen('main');
 
         Api.get('movies')
             .then((res) => setMovies(res.data))
             .catch(console.log);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

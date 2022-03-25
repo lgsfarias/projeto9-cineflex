@@ -8,12 +8,13 @@ import Api from '../services/Api';
 import Seat from './Seat';
 
 const Session = (props) => {
-    const { order, setOrder } = props;
+    const { order, setOrder, setScreen } = props;
     const [seatsData, setSeatsData] = useState({});
     const { ShowtimeId } = useParams();
     const [disable, setDisable] = useState(true);
 
     useEffect(() => {
+        setScreen('session');
         Api.get(`showtimes/${ShowtimeId}/seats`)
             .then((res) => {
                 setSeatsData(res.data);

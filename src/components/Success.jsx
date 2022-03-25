@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Api from '../../services/Api';
+import Api from '../services/Api';
 
 const Success = (props) => {
-    const { order } = props;
+    const { order, setScreen } = props;
 
     useEffect(() => {
+        setScreen('success');
         Api.post('seats/book-many', {
             ids: order.ids,
             name: order.name,
