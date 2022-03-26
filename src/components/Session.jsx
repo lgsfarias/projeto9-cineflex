@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LoadingScreen from './LoadingScreen';
@@ -12,6 +11,18 @@ const Session = (props) => {
     const [seatsData, setSeatsData] = useState({});
     const { ShowtimeId } = useParams();
     const [disable, setDisable] = useState(true);
+    const navigate = useNavigate();
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        Api.post('seats/book-many', {
+            ids: order.ids,
+            name: order.name,
+            cpf: order.cpf,
+        })
+            .then((res) => navigate('/sucesso'))
+            .catch(console.log);
+    }
 
     useEffect(() => {
         setScreen('session');
@@ -30,7 +41,11 @@ const Session = (props) => {
     }, []);
 
     useEffect(() => {
-        if (order.ids.length !== 0 && order.name !== '' && order.cpf !== '') {
+        if (
+            order.ids.length !== 0 &&
+            order.name !== '' &&
+            order.cpf.length === 11
+        ) {
             setDisable(false);
         } else {
             setDisable(true);
@@ -89,7 +104,7 @@ const Session = (props) => {
                     <p>Indisponível</p>
                 </div>
             </div>
-            <div className="form">
+            <form onSubmit={handleSubmit}>
                 <p>Nome do comprador:</p>
                 <input
                     onChange={(e) =>
@@ -97,7 +112,9 @@ const Session = (props) => {
                     }
                     type="text"
                     name="name"
-                    placeholder="Digite seu nome..."
+                    value={order.name}
+                    placeholder="Digite seu nome ..."
+                    required
                 />
                 <p htmlFor="CPF">CPF do comprador:</p>
                 <input
@@ -106,17 +123,17 @@ const Session = (props) => {
                     }
                     type="text"
                     name="CPF"
-                    placeholder="Digite seu CPF..."
+                    value={order.cpf}
+                    maxLength="11"
+                    placeholder="Digite seu CPF (somente números)..."
+                    required
                 />
-            </div>
-            <div className="button-container">
-                <Link
-                    to="/sucesso"
-                    className={disable ? 'button disabled' : 'button'}
-                >
-                    <p>Reservar assento(s)</p>
-                </Link>
-            </div>
+                <input
+                    type="submit"
+                    className={disable ? 'disabled' : ''}
+                    value="Reservar assento(s)"
+                />
+            </form>
         </SessionContainer>
     );
 };
@@ -198,13 +215,13 @@ const SessionContainer = styled.div`
         color: #4e5a65;
     }
 
-    .form {
+    form {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
     }
 
-    .form p {
+    form p {
         font-family: 'Roboto';
         font-weight: 400;
         font-size: 18px;
@@ -212,7 +229,7 @@ const SessionContainer = styled.div`
         color: #293845;
     }
 
-    .form input {
+    form input {
         height: 51px;
         background: #ffffff;
         border: 1px solid #d5d5d5;
@@ -221,22 +238,7 @@ const SessionContainer = styled.div`
         padding-left: 15px;
         outline: none;
     }
-
-    input::placeholder {
-        font-family: 'Roboto';
-        font-style: italic;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 21px;
-        color: #afafaf;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: center;
-    }
-
-    .button {
+    form input[type='submit'] {
         width: 225px;
         height: 42px;
         background: #e8833a;
@@ -247,16 +249,24 @@ const SessionContainer = styled.div`
         font-size: 18px;
         color: #ffffff;
         align-self: center;
-        margin-top: 20px;
+        margin-top: 50px;
         display: flex;
         justify-content: center;
         align-items: center;
         text-decoration: none;
     }
-
-    .button.disabled {
+    form input[type='submit'].disabled {
         opacity: 0.5;
         pointer-events: none;
+    }
+
+    input::placeholder {
+        font-family: 'Roboto';
+        font-style: italic;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 21px;
+        color: #afafaf;
     }
 
     .Session .loading {

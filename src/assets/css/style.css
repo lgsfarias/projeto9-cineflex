@@ -39,6 +39,7 @@ header .logo p{
 }
 
 footer {
+    z-index: 2;
     display: flex;
     justify-content: flex-start;
     align-items: center;
