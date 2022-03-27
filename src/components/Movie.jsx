@@ -126,5 +126,10 @@ const Day = styled.div`
             justify-content: center;
             align-items: center;
         }
+        .button:hover,
+        .button:focus {
+            opacity: 0.8;
+            transform: translateY(-3px);
+        }
     }
 `;

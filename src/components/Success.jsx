@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
 const Success = (props) => {
-    const { order, setScreen } = props;
+    const { setScreen } = props;
+    const { state } = useLocation();
+
+    function maskCpf(cpf) {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4');
+    }
 
     useEffect(() => {
         setScreen('success');
@@ -19,32 +25,26 @@ const Success = (props) => {
                 <div className="info">
                     <p>Filme e sessão</p>
                     <div className="description">
-                        <p>{order.title}</p>
+                        <p>{state.title}</p>
                         <p>
-                            {order.date} {order.time}
+                            {state.date} {state.time}
                         </p>
                     </div>
                 </div>
-                <div className="info">
-                    <p>Ingressos</p>
-                    <div className="description">
-                        {order.ids.map((item) => (
-                            <p key={item}>
-                                Assento {item % 50 !== 0 ? item % 50 : 50}
-                            </p>
-                        ))}
-                    </div>
-                </div>
-                <div className="info">
-                    <p>comprador</p>
-                    <div className="description">
-                        <p>Nome: {order.name}</p>
+                {state.compradores.map((comprador) => (
+                    <div key={comprador.idAssento} className="info">
                         <p>
-                            CPF: {order.cpf.slice(0, 3)}.{order.cpf.slice(3, 6)}
-                            .{order.cpf.slice(6, 9)}-{order.cpf.slice(9, 11)}
+                            Assento{' '}
+                            {comprador.idAssento % 50 === 0
+                                ? 50
+                                : comprador.idAssento % 50}
                         </p>
+                        <div className="description">
+                            <p>Nome: {comprador.nome}</p>
+                            <p>CPF: {maskCpf(comprador.cpf)}</p>
+                        </div>
                     </div>
-                </div>
+                ))}
             </div>
 
             <Link to="/" className="button">
@@ -130,5 +130,10 @@ const SuccessContainer = styled.div`
         align-items: center;
         text-decoration: none;
         margin-top: 50px;
+    }
+
+    .button:hover,
+    .button:focus {
+        transform: translateY(-3px);
     }
 `;

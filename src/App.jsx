@@ -19,11 +19,7 @@ import { AiFillStepBackward } from 'react-icons/ai';
 const App = () => {
     const [order, setOrder] = useState({
         ids: [],
-        name: '',
-        cpf: '',
-        title: '',
-        date: '',
-        time: '',
+        compradores: [],
     });
 
     const [screen, setScreen] = useState('');

@@ -10,7 +10,7 @@ header {
     top: 0;
     right: 0;
     height: 67px;
-    background: #C3CFD9;
+    background: #DFE6ED; /*C3CFD9*/
     display: flex;
     justify-content: center;
     align-items: center;

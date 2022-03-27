@@ -12,11 +12,7 @@ const Main = (props) => {
     useEffect(() => {
         setOrder({
             ids: [],
-            name: '',
-            cpf: '',
-            title: '',
-            date: '',
-            time: '',
+            compradores: [],
         });
         setScreen('main');
 

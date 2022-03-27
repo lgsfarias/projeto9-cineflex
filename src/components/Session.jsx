@@ -5,22 +5,28 @@ import styled from 'styled-components';
 import LoadingScreen from './LoadingScreen';
 import Api from '../services/Api';
 import Seat from './Seat';
+import Costumer from './Costumer';
 
 const Session = (props) => {
     const { order, setOrder, setScreen } = props;
     const [seatsData, setSeatsData] = useState({});
     const { ShowtimeId } = useParams();
-    const [disable, setDisable] = useState(true);
+    const [disable, setDisable] = useState(false);
     const navigate = useNavigate();
 
     function handleSubmit(e) {
         e.preventDefault();
-        Api.post('seats/book-many', {
-            ids: order.ids,
-            name: order.name,
-            cpf: order.cpf,
-        })
-            .then((res) => navigate('/sucesso'))
+        Api.post('seats/book-many', { ...order })
+            .then((res) =>
+                navigate('/sucesso', {
+                    state: {
+                        ...order,
+                        title: seatsData.movie.title,
+                        date: seatsData.day.date,
+                        time: seatsData.name,
+                    },
+                })
+            )
             .catch(console.log);
     }
 
@@ -29,23 +35,13 @@ const Session = (props) => {
         Api.get(`showtimes/${ShowtimeId}/seats`)
             .then((res) => {
                 setSeatsData(res.data);
-                setOrder({
-                    ...order,
-                    title: res.data.movie.title,
-                    date: res.data.day.date,
-                    time: res.data.name,
-                });
             })
             .catch(console.log);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
-        if (
-            order.ids.length !== 0 &&
-            order.name !== '' &&
-            order.cpf.length === 11
-        ) {
+        if (order.ids.length !== 0) {
             setDisable(false);
         } else {
             setDisable(true);
@@ -105,29 +101,21 @@ const Session = (props) => {
                 </div>
             </div>
             <form onSubmit={handleSubmit}>
-                <p>Nome do comprador:</p>
-                <input
-                    onChange={(e) =>
-                        setOrder({ ...order, name: e.target.value })
-                    }
-                    type="text"
-                    name="name"
-                    value={order.name}
-                    placeholder="Digite seu nome ..."
-                    required
-                />
-                <p htmlFor="CPF">CPF do comprador:</p>
-                <input
-                    onChange={(e) =>
-                        setOrder({ ...order, cpf: e.target.value })
-                    }
-                    type="text"
-                    name="CPF"
-                    value={order.cpf}
-                    maxLength="11"
-                    placeholder="Digite seu CPF (somente números)..."
-                    required
-                />
+                {order.ids.length !== 0 ? (
+                    order.ids.map((id) => (
+                        <Costumer
+                            order={order}
+                            setOrder={setOrder}
+                            id={id}
+                            key={id}
+                        />
+                    ))
+                ) : (
+                    <p className="seat-description">
+                        {' '}
+                        Selecione os assentos ...
+                    </p>
+                )}
                 <input
                     type="submit"
                     className={disable ? 'disabled' : ''}
@@ -220,23 +208,12 @@ const SessionContainer = styled.div`
         flex-direction: column;
         justify-content: flex-start;
     }
-
-    form p {
+    .seat-description {
         font-family: 'Roboto';
         font-weight: 400;
-        font-size: 18px;
-        line-height: 21px;
+        font-size: 20px;
         color: #293845;
-    }
-
-    form input {
-        height: 51px;
-        background: #ffffff;
-        border: 1px solid #d5d5d5;
-        border-radius: 3px;
-        margin-bottom: 10px;
-        padding-left: 15px;
-        outline: none;
+        margin-bottom: 20px;
     }
     form input[type='submit'] {
         width: 225px;
@@ -258,6 +235,11 @@ const SessionContainer = styled.div`
     form input[type='submit'].disabled {
         opacity: 0.5;
         pointer-events: none;
+    }
+
+    form input[type='submit']:hover,
+    form input[type='submit']:focus {
+        transform: translateY(-3px);
     }
 
     input::placeholder {
