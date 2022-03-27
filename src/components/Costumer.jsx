@@ -62,6 +62,8 @@ export default Costumer;
 
 const CostumerContainer = styled.div`
     width: 100%;
+    max-width: 390px;
+    align-self: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

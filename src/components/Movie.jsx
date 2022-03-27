@@ -78,11 +78,10 @@ const MovieContainer = styled.div`
     bottom: 0;
     left: 0;
     overflow-y: auto;
-    padding-bottom: 150px;
+    padding-bottom: 117px;
 
     .header {
         height: 100px;
-        background: #fff;
         font-family: 'Roboto';
         font-weight: 400;
         font-size: 24px;

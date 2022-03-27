@@ -10,10 +10,30 @@ const Seat = ({ isAvailable, name, order, setOrder, id }) => {
 
                     let index = order.ids.indexOf(id);
                     if (index > -1) {
-                        order.ids.splice(index, 1);
-                        order.compradores = order.compradores.filter(
-                            (comprador) => comprador.idAssento !== id
+                        const indiceComprador = order.compradores.findIndex(
+                            (comprador) => comprador.idAssento === id
                         );
+                        if (
+                            order.compradores[indiceComprador].nome !== '' ||
+                            order.compradores[indiceComprador].cpf !== ''
+                        ) {
+                            const confirmation = window.confirm(
+                                `Gostaria realmente de remover o assento ${
+                                    id % 50 === 0 ? 50 : id % 50
+                                } e apagar os dados vinculados a ele?`
+                            );
+                            if (confirmation) {
+                                order.ids.splice(index, 1);
+                                order.compradores = order.compradores.filter(
+                                    (comprador) => comprador.idAssento !== id
+                                );
+                            }
+                        } else {
+                            order.ids.splice(index, 1);
+                            order.compradores = order.compradores.filter(
+                                (comprador) => comprador.idAssento !== id
+                            );
+                        }
                     } else {
                         order.ids.push(id);
                         order.ids.sort((a, b) => a - b);
@@ -24,6 +44,8 @@ const Seat = ({ isAvailable, name, order, setOrder, id }) => {
                         });
                     }
                     setOrder({ ...order });
+                } else {
+                    alert('Este assento não está disponível');
                 }
             }}
             className={
