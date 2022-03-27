@@ -6,8 +6,6 @@ const Seat = ({ isAvailable, name, order, setOrder, id }) => {
         <div
             onClick={() => {
                 if (isAvailable) {
-                    setIsSelected(!isSelected);
-
                     let index = order.ids.indexOf(id);
                     if (index > -1) {
                         const indiceComprador = order.compradores.findIndex(
@@ -22,19 +20,22 @@ const Seat = ({ isAvailable, name, order, setOrder, id }) => {
                                     id % 50 === 0 ? 50 : id % 50
                                 } e apagar os dados vinculados a ele?`
                             );
-                            if (confirmation) {
+                            if (confirmation === true) {
+                                setIsSelected(!isSelected);
                                 order.ids.splice(index, 1);
                                 order.compradores = order.compradores.filter(
                                     (comprador) => comprador.idAssento !== id
                                 );
                             }
                         } else {
+                            setIsSelected(!isSelected);
                             order.ids.splice(index, 1);
                             order.compradores = order.compradores.filter(
                                 (comprador) => comprador.idAssento !== id
                             );
                         }
                     } else {
+                        setIsSelected(!isSelected);
                         order.ids.push(id);
                         order.ids.sort((a, b) => a - b);
                         order.compradores.push({
