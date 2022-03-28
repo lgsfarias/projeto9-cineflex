@@ -7,10 +7,6 @@ const Success = (props) => {
     const { setScreen } = props;
     const { state } = useLocation();
 
-    function maskCpf(cpf) {
-        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4');
-    }
-
     useEffect(() => {
         setScreen('success');
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,7 +37,7 @@ const Success = (props) => {
                         </p>
                         <div className="description">
                             <p>Nome: {comprador.nome}</p>
-                            <p>CPF: {maskCpf(comprador.cpf)}</p>
+                            <p>CPF: {comprador.cpf}</p>
                         </div>
                     </div>
                 ))}

@@ -4,6 +4,16 @@ import styled from 'styled-components';
 const Costumer = (props) => {
     const { order, setOrder, id } = props;
 
+    function cpfMask(value) {
+        return value
+            .replace(/\D/g, '') // substitui qualquer caracter que nao seja numero por nada
+            .replace(/(\d{3})(\d)/, '$1.$2') // captura 2 grupos de numero o primeiro de 3 e o segundo de 1, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de numero
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+            .replace(/(-\d{2})\d+?$/, '$1'); // captura 2 numeros seguidos de um traço e não deixa ser digitado mais nada
+        // function source -- https://medium.com/trainingcenter/mascara-de-cpf-com-react-javascript-a07719345c93
+    }
+
     return (
         <CostumerContainer>
             <p className="seat-description bold">
@@ -37,7 +47,9 @@ const Costumer = (props) => {
                     const indexComprador = order.compradores.findIndex(
                         (comprador) => comprador.idAssento === id
                     );
-                    order.compradores[indexComprador].cpf = e.target.value;
+                    order.compradores[indexComprador].cpf = cpfMask(
+                        e.target.value
+                    );
                     setOrder({ ...order });
                 }}
                 type="text"
@@ -49,8 +61,8 @@ const Costumer = (props) => {
                         )
                     ].cpf
                 }
-                minLength="11"
-                maxLength="11"
+                minLength="14"
+                maxLength="14"
                 placeholder="Digite seu CPF (somente números)..."
                 required
             />
